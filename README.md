@@ -14,7 +14,7 @@ For building and running the application you may need:
 - [Git](https://git-scm.com/)
 
 ### Build and run with CMD
-To run application with command-line, need to execute following steps.
+To run application with command-line, need to execute following steps.  
 Run shell script, included in repository:
 ```shell
 make run
@@ -54,7 +54,7 @@ scan                           - Scan for known vulnerabilities the  docker imag
 
 ```
 
-Before build, following resources could be pre-configured or **application will use default configuration from resources**:
+Before build, following resources could be pre-configured or **application will use default configuration from resources**:  
 ```shell
 export CONFIG_SOURCE==/Users/some-path/players-lab/players-main/src/main/resources/application.yaml   
 export LOG_SOURCE=/Users/some-path/players-lab/players-main/src/main/resources/spring-log4j2.xml
