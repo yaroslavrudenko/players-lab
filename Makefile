@@ -33,7 +33,7 @@ build:env ## - Compile and Build application
 
 docker-build:build ## - Build Docker image for  application
 	@echo "docker............"
-	@aws ecr get-login-password --region $(AWS_REGION) | docker login --username AWS --password-stdin $(AWS_ACCOUNT_NUMBER).dkr.ecr.$(AWS_REGION).amazonaws.com
+	## @aws ecr get-login-password --region $(AWS_REGION) | docker login --username AWS --password-stdin $(AWS_ACCOUNT_NUMBER).dkr.ecr.$(AWS_REGION).amazonaws.com
 	@docker build --build-arg "PLAYERS_CONFIG_SOURCE=$(PLAYERS_CONFIG_SOURCE)" --build-arg "LOG_SOURCE=$(LOG_SOURCE)" --build-arg "CONFIG_SOURCE=$(CONFIG_SOURCE)" --build-arg "APP_VERSION=$(APP_VERSION)" --build-arg "APP_BUILD=$(APP_BUILD)" --build-arg "APP_FULL_NAME=$(APP_FULL_NAME)" --build-arg "AWS_REGION=$(AWS_REGION)" --build-arg "AWS_ACCOUNT_NUMBER=$(AWS_ACCOUNT_NUMBER)"  -t $(DOCKER_IMAGE):$(APP_VERSION) . --progress=plain --no-cache --platform linux/amd64
 
 docker-scan: ## - Scan for known vulnerabilities the  docker image
