@@ -11,8 +11,15 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java-version: [17] # Update to the desired Java version
 
     steps:
     - uses: actions/checkout@v4
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: ${{ matrix.java-version }}
     - name: Build the Docker image
       run: make docker-build
