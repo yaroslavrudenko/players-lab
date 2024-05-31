@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="CONSOLE_LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight{%5p}{FATAL=red, ERROR=red, WARN=yellow, INFO=green, DEBUG=green, TRACE=green} %style{%pid}{magenta} --- [%15.15t] %style{%-40.40c{1.}}{cyan} : %m%n%ex</Property>
+        <Property name="FILE_LOG_PATTERN">%level{WARN=W, DEBUG=D, ERROR=E, TRACE=T, INFO=I} %d{yyMMdd HHmmss.SSS} [%t] [%X{interactionID}] %logger{1} - %msg%n%ex{full}</Property>
+        <Property name="logging.path" value="${path.logging:-./logs}"/>
+        <Property name="logging.file" value="${file.logging:-players-lab}"/>
+        <Property name="rolling.file.size" value="10MB"/>
+    </Properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${sys:CONSOLE_LOG_PATTERN}" />
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+        </Console>
+
+        <RollingRandomAccessFile name="rollingFileAppenderDebug"
+                                 fileName="${logging.path}/${logging.file}.log"
+                                 filePattern="${logging.path}/${logging.file}.%i"
+                                 immediateFlush="false">
+            <PatternLayout>
+                <Pattern>${sys:FILE_LOG_PATTERN}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="${rolling.file.size}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile name="rollingFileAppenderWarn"
+                                 fileName="${logging.path}/${logging.file}.warn"
+                                 filePattern="${logging.path}/${logging.file}.warn.%i"
+                                 immediateFlush="false">
+            <PatternLayout>
+                <Pattern>${sys:FILE_LOG_PATTERN}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+            <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile name="rollingFileAppenderError"
+                                 fileName="${logging.path}/${logging.file}.err"
+                                 filePattern="${logging.path}/${logging.file}.%i"
+                                 immediateFlush="false">
+            <PatternLayout>
+                <Pattern>${sys:FILE_LOG_PATTERN}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="${rolling.file.size}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+        </RollingRandomAccessFile>
+    </Appenders>
+    <Loggers>
+
+        <AsyncRoot level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="rollingFileAppenderDebug"/>
+            <AppenderRef ref="rollingFileAppenderWarn"/>
+            <AppenderRef ref="rollingFileAppenderError"/>
+        </AsyncRoot>
+    </Loggers>
+</Configuration>
