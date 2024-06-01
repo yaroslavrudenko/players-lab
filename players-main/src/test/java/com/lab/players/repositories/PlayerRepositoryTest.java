@@ -46,6 +46,13 @@ public class PlayerRepositoryTest {
         // When: Retrieving all players from the repository
         Iterable<Player> players = serviceAware.findAll();
 
+        // Hit a second time to test cache
+        players = serviceAware.findAll();
+        // Hit a third time to test cache
+        players = serviceAware.findAll();
+        // Hit a fourth time to test cache
+        players = serviceAware.findAll();
+
         // Then: Verify that players are not empty
         assertThat(players).isNotEmpty();
         assertThat(players).hasSize(59);
@@ -60,6 +67,13 @@ public class PlayerRepositoryTest {
         // Given: Test database is initialized with schema.sql
         // When: Retrieving all players from the repository
         Optional<Player> player = serviceAware.findById("adairje01");
+
+        // Hit a second time to test cache
+        player = serviceAware.findById("adairje01");
+        // Hit a third time to test cache
+        player = serviceAware.findById("adairje01");
+        // Hit a fourth time to test cache
+        player = serviceAware.findById("adairje01");
 
         // Then: Verify that players are not empty
         assertThat(player).isPresent();
