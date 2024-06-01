@@ -23,6 +23,7 @@ public class CacheConfig implements CachingConfigurer {
 
     public static final String SERVICE_FIND_ALL = "serviceFindAll";
     public static final String SERVICE_FIND_BY_ID = "serviceFindById";
+    public static final String SERVICE_FIND_ALL_PAGEABLE = "serviceFindAllPageable";
 
     /**
      * Cache manager.
@@ -42,7 +43,10 @@ public class CacheConfig implements CachingConfigurer {
         GuavaCache findByIdCache = new GuavaCache(SERVICE_FIND_BY_ID, CacheBuilder.newBuilder()
                 .expireAfterWrite(1, TimeUnit.HOURS)
                 .build());
-        cacheManager.setCaches(Arrays.asList(findAllCache, findByIdCache));
+        GuavaCache findAllCachePageable = new GuavaCache(SERVICE_FIND_ALL_PAGEABLE, CacheBuilder.newBuilder()
+                .expireAfterWrite(1, TimeUnit.HOURS)
+                .build());
+        cacheManager.setCaches(Arrays.asList(findAllCache, findByIdCache, findAllCachePageable));
         return cacheManager;
     }
 
