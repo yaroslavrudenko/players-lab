@@ -1,5 +1,9 @@
 package com.lab.players.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.lang.NonNull;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -16,5 +20,7 @@ public interface PlayerServiceAware<ENTITY, ID> {
     List<ENTITY> findAll();
 
     Optional<ENTITY> findById(ID id);
+
+    Page<ENTITY> findAll(@NonNull Pageable pageable);
 
 }

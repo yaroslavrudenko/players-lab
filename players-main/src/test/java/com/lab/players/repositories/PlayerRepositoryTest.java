@@ -7,6 +7,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.util.FileCopyUtils;
 
@@ -20,6 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(properties = "service.stub=true")
 @TestPropertySource(locations = "classpath:test.yaml")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class PlayerRepositoryTest {
 
     @Autowired
@@ -56,6 +59,19 @@ public class PlayerRepositoryTest {
         // Then: Verify that players are not empty
         assertThat(players).isNotEmpty();
         assertThat(players).hasSize(59);
+    }
+
+    @Test
+    public void testPageable() {
+        this.playersFileProcessorAware.onFileChange(testFile);
+        // Given: Test database is initialized with schema.sql
+        // When: Retrieving all players from the repository
+        Iterable<Player> players = serviceAware.findAll(Pageable.ofSize(5).withPage(1));
+
+
+        // Then: Verify that players are not empty
+        assertThat(players).isNotEmpty();
+        assertThat(players).hasSize(5);
     }
 
     /**
