@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.reactive.config.EnableWebFlux;
 
 import java.io.File;
 
@@ -18,6 +19,7 @@ import java.io.File;
 @Configuration
 @EnableScheduling
 @EnableAsync
+@EnableWebFlux
 @EnableJpaRepositories(basePackages = {"com.lab.players.repositories"})
 @EntityScan("com.lab.players.entities")
 public class AppConfig {

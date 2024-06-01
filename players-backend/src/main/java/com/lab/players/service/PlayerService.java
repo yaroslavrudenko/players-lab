@@ -29,7 +29,7 @@ public class PlayerService implements PlayerServiceAware<Player, String> {
 
     @Override
     @Transactional
-    @Counted(value = "players_save_all_errors", recordFailuresOnly = true)
+    @Counted(value = "players_save_all_errors", recordFailuresOnly = true, extraTags = {"service"})
     @Timed(value = "players_save_all_latency", description = "Players SaveAll latency", extraTags = {"service"})
     @CacheEvict(value = {SERVICE_FIND_ALL, SERVICE_FIND_BY_ID}, allEntries = true)
     public List<Player> saveAll(List<Player> players) {
@@ -37,7 +37,7 @@ public class PlayerService implements PlayerServiceAware<Player, String> {
     }
 
     @Override
-    @Counted(value = "players_find_all_errors", recordFailuresOnly = true)
+    @Counted(value = "players_find_all_errors", recordFailuresOnly = true, extraTags = {"service"})
     @Timed(value = "players_find_all_latency", description = "Players FindAll latency", extraTags = {"service"})
     @Cacheable(value = SERVICE_FIND_ALL, unless = "#result instanceof T(java.lang.Exception)", cacheManager = "cacheManager",
             keyGenerator = "workingKeyGenerator")
@@ -48,7 +48,7 @@ public class PlayerService implements PlayerServiceAware<Player, String> {
     }
 
     @Override
-    @Counted(value = "players_find_by_id_errors", recordFailuresOnly = true)
+    @Counted(value = "players_find_by_id_errors", recordFailuresOnly = true, extraTags = {"service"})
     @Timed(value = "players_find_by_id_latency", description = "Players FindById latency", extraTags = {"service"})
     @Cacheable(value = SERVICE_FIND_BY_ID, unless = "#result instanceof T(java.lang.Exception)", cacheManager = "cacheManager",
             keyGenerator = "workingKeyGenerator")

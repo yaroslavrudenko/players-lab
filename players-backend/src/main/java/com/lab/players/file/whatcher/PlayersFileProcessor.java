@@ -58,7 +58,7 @@ public class PlayersFileProcessor extends FileAlterationListenerAdaptor implemen
         try (PlayersFilterIteratorAware playersRecordIteratorProvider = new PlayersRecordIteratorProvider(file)) {
             Iterator<String> iterator = playersRecordIteratorProvider.getRecordIterator(startByte, endByte, TRUE);
             List<Player> players = this.createPlayers(iterator);
-            playerService.saveAll(players);
+            this.playerService.saveAll(players);
         } catch (Exception e) {
             log.error("Error while reading file: {}. From byte: {}, to: {}", file, startByte, endByte, e);
         }

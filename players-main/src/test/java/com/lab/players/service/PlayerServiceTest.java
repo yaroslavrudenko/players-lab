@@ -21,7 +21,7 @@ import static org.mockito.Mockito.*;
 class PlayerServiceTest {
 
     @Autowired
-    private PlayerService playerService;
+    private PlayerServiceAware<Player, String> playerService;
 
     @MockBean
     private PlayersRepository playersRepository;

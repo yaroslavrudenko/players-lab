@@ -12,4 +12,12 @@
     <packaging>jar</packaging>
     <artifactId>players-rest</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.lab</groupId>
+            <artifactId>players-backend</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
 </project>
