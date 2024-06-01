@@ -15,6 +15,13 @@ spring:
     console:
       enabled: true
       path: /h2-console
+  h2.console:
+    # Required for h2-console server
+    enabled: true
+    # Optional variable /h2-console forward from the path to session created h2 console server uri
+    path: /h2-console
+    # Optional h2 console port if not set or set 0, available port is given
+    port: 8085
   sql:
     init:
       platform: h2
