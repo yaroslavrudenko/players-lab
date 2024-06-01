@@ -14,7 +14,7 @@ import java.util.function.Function;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+@SpringBootTest(properties = "service.stub=true")
 @TestPropertySource(properties = {
         "file.min.chunks.size=1048576" // 1 MB for test
 })

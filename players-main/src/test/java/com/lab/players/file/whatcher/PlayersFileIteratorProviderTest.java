@@ -17,11 +17,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
 
-import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+@SpringBootTest(properties = "service.stub=true")
 @TestPropertySource(properties = {
         "file.min.chunks.size=1024"
 })

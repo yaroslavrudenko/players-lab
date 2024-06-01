@@ -15,7 +15,7 @@ import java.util.function.Function;
 @Component
 public class PlayersFileSplits implements Function<Path, List<long[]>> {
 
-    @Value("${file.min.chunks.size: 1048576}")
+    @Value("${file.min.chunks.size: 1048576}") //1MB
     private long minChunkSize;
 
     @Override

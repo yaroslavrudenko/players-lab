@@ -44,6 +44,7 @@ public class PlayersRecordIteratorProvider implements PlayersFilterIteratorAware
      * @param skipHeader      Whether to skip the first line of the file (this is a HACK for the header line in the file)
      * @return Iterator containing records in split
      */
+    @Override
     public Iterator<String> getRecordIterator(long startByteOffset, long endByteOffset, boolean skipHeader /* HACK */) throws IOException {
 
         startByteOffset = startByteOffset == 0 && skipHeader ? startByteOffset + 1 : startByteOffset;
