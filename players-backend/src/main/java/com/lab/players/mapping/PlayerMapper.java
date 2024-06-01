@@ -10,6 +10,7 @@ import java.util.function.Function;
 import static com.lab.players.mapping.PlayerConstants.*;
 import static com.lab.players.utils.PlayersUtils.parseStringToLocalDate;
 import static com.lab.players.utils.PlayersUtils.toOptionalInt;
+import static org.apache.commons.lang3.StringUtils.stripToNull;
 
 @Slf4j
 @Component
@@ -24,30 +25,30 @@ public class PlayerMapper implements Function<String, Player> {
         String[] fields = csvLine.split(",");
         try {
             return Player.builder()
-                    .playerID(fields[PLAYER_ID])
+                    .playerID(stripToNull(fields[PLAYER_ID]))
                     .birthYear(toOptionalInt(fields[BIRTH_YEAR]).orElse(null))
                     .birthMonth(toOptionalInt(fields[BIRTH_MONTH]).orElse(null))
                     .birthDay(toOptionalInt(fields[BIRTH_DAY]).orElse(null))
-                    .birthCountry(fields[BIRTH_COUNTRY])
-                    .birthState(fields[BIRTH_STATE])
-                    .birthCity(fields[BIRTH_CITY])
+                    .birthCountry(stripToNull(fields[BIRTH_COUNTRY]))
+                    .birthState(stripToNull(fields[BIRTH_STATE]))
+                    .birthCity(stripToNull(fields[BIRTH_CITY]))
                     .deathYear(toOptionalInt(fields[DEATH_YEAR]).orElse(null))
                     .deathMonth(toOptionalInt(fields[DEATH_MONTH]).orElse(null))
                     .deathDay(toOptionalInt(fields[DEATH_DAY]).orElse(null))
-                    .deathCountry(fields[DEATH_COUNTRY])
-                    .deathState(fields[DEATH_STATE])
-                    .deathCity(fields[DEATH_CITY])
-                    .nameFirst(fields[NAME_FIRST])
-                    .nameLast(fields[NAME_LAST])
-                    .nameGiven(fields[NAME_GIVEN])
+                    .deathCountry(stripToNull(fields[DEATH_COUNTRY]))
+                    .deathState(stripToNull(fields[DEATH_STATE]))
+                    .deathCity(stripToNull(fields[DEATH_CITY]))
+                    .nameFirst(stripToNull(fields[NAME_FIRST]))
+                    .nameLast(stripToNull(fields[NAME_LAST]))
+                    .nameGiven(stripToNull(fields[NAME_GIVEN]))
                     .weight(toOptionalInt(fields[WEIGHT]).orElse(null))
                     .height(toOptionalInt(fields[HEIGHT]).orElse(null))
-                    .bats(fields[BATS])
-                    .throwValue(fields[THROWS])
+                    .bats(stripToNull(fields[BATS]))
+                    .throwValue(stripToNull(fields[THROWS]))
                     .debut(parseStringToLocalDate(fields[DEBUT], YYYY_MM_DD))
                     .finalGame(parseStringToLocalDate(fields[FINAL_GAME], YYYY_MM_DD))
-                    .retroID(fields[RETRO_ID])
-                    .bbrefID(fields[BBREF_ID])
+                    .retroID(stripToNull(fields[RETRO_ID]))
+                    .bbrefID(stripToNull(fields[BBREF_ID]))
                     .build();
         } catch (Exception e) {
             log.error("Error while parsing player ID: {} with line: '{}'", fields[PLAYER_ID], csvLine, e);

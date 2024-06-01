@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: players-lab
+  task:
+    scheduling:
+      thread-name-prefix: players-scheduler-
+    execution:
+      thread-name-prefix: players-execution-
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+  h2:
+    console:
+      enabled: true
+  sql:
+    init:
+      platform: h2
+      schema-locations: classpath:schema.sql
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+        batch_fetch_style: DYNAMIC
+        order_by:
+          default_null_ordering: last
+    open-in-view: false
+    show-sql: true
+
+service:
+  stub: true
+
+

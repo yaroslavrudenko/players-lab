@@ -17,8 +17,8 @@ package com.lab.players.mapping;
  * 13. nameFirst
  * 14. nameLast
  * 15. nameGiven
- * 16. weight
- * 17. height
+ * 16. height
+ * 17. weight
  * 18. bats
  * 19. throws
  * 20. debut
@@ -28,6 +28,7 @@ package com.lab.players.mapping;
  * <p>
  * These indexes can be used to access fields within a CSV record or array.
  */
+// playerID,birthYear,birthMonth,birthDay,birthCountry,birthState,birthCity,deathYear,deathMonth,deathDay,deathCountry,deathState,deathCity,nameFirst,nameLast,nameGiven,weight,height,bats,throws,debut,finalGame,retroID,bbrefID
 public class PlayerConstants {
     public static final String YYYY_MM_DD = "yyyy-MM-dd";
 
@@ -47,8 +48,8 @@ public class PlayerConstants {
     public static final int NAME_FIRST = 13;
     public static final int NAME_LAST = 14;
     public static final int NAME_GIVEN = 15;
-    public static final int WEIGHT = 16;
-    public static final int HEIGHT = 17;
+    public static final int HEIGHT = 16;
+    public static final int WEIGHT = 17;
     public static final int BATS = 18;
     public static final int THROWS = 19;
     public static final int DEBUT = 20;
