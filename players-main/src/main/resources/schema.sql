@@ -1,0 +1,27 @@
+CREATE TABLE IF NOT EXISTS players
+(
+    player_id     VARCHAR(64) PRIMARY KEY,
+    birth_year    INT,
+    birth_month   INT,
+    birth_day     INT,
+    birth_country VARCHAR(255),
+    birth_state   VARCHAR(255),
+    birth_city    VARCHAR(255),
+    death_year    INT,
+    death_month   INT,
+    death_day     INT,
+    death_country VARCHAR(255),
+    death_state   VARCHAR(255),
+    death_city    VARCHAR(255),
+    name_first    VARCHAR(255),
+    name_last     VARCHAR(255),
+    name_given    VARCHAR(255),
+    weight        INT,
+    height        INT,
+    bats          VARCHAR(1),
+    throws        VARCHAR(1),
+    debut         DATE,
+    final_game    DATE,
+    retro_id      VARCHAR(64),
+    bbref_id      VARCHAR(64)
+);

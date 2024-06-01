@@ -5,22 +5,19 @@ import org.apache.commons.io.filefilter.NameFileFilter;
 import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
 import org.apache.commons.io.monitor.FileAlterationMonitor;
 import org.apache.commons.io.monitor.FileAlterationObserver;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import java.io.File;
 
 @Slf4j
-//@Component
-public class PlayersSymbolMappingFileWatcher {
+public class PlayersFileWatcher {
 
     private final long monitoringInterval;
     private final String monitoringFileLocation;
     private final FileAlterationMonitor monitor;
 
-    public PlayersSymbolMappingFileWatcher(@Value("${file.monitoring.interval}") final long monitoringInterval,
-                                           @Value("${file.monitoring.path}") final File monitoringFileLocation,
-                                           FileAlterationListenerAdaptor listener) {
+    public PlayersFileWatcher(long monitoringInterval,
+                              File monitoringFileLocation,
+                              FileAlterationListenerAdaptor listener) {
         this.monitoringInterval = monitoringInterval;
         this.monitoringFileLocation = monitoringFileLocation.getAbsolutePath();
         FileAlterationObserver observer;
@@ -32,6 +29,7 @@ public class PlayersSymbolMappingFileWatcher {
         observer.addListener(listener);
         this.monitor = new FileAlterationMonitor(monitoringInterval, observer);
         listener.onFileChange(monitoringFileLocation);
+        log.info("Starting file monitoring for file {}", monitoringFileLocation.getAbsolutePath());
         this.start();
     }
 

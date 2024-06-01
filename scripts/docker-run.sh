@@ -2,7 +2,7 @@
 
 JAVA_COMMANDS=" --spring.config.location=${CONFIG_SOURCE:=/app/runtime/application.yaml}"
 JAVA_COMMANDS="$JAVA_COMMANDS --logging.config=${LOG_SOURCE:=/app/runtime/spring-log4j2.xml}"
-JAVA_COMMANDS="$JAVA_COMMANDS --players.config.source=${PLAYERS_CONFIG_SOURCE:=/app/runtime/players.csv}"
+JAVA_COMMANDS="$JAVA_COMMANDS --players.config.source=${PLAYERS_CONFIG_SOURCE:=/app/runtime/player.csv}"
 
 clear
 

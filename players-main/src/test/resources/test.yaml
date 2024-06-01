@@ -7,7 +7,7 @@ spring:
     execution:
       thread-name-prefix: players-execution-
   datasource:
-    url: jdbc:h2:mem:players
+    url: jdbc:h2:mem:testdb
     driverClassName: org.h2.Driver
     username: sa
     password: password
@@ -30,35 +30,9 @@ spring:
         order_by:
           default_null_ordering: last
     open-in-view: false
-    show-sql: false
+    show-sql: true
 
-  main:
-    sources: com.lab.players.PlayersLabApplication
-    banner-mode: console
-    allow-bean-definition-overriding: true
-
-logging:
-  config: classpath:spring-log4j2.xml
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-springdoc:
-  api-docs:
-    path: /api-docs
-  swagger-ui:
-    path: /swagger-ui.html
-    enabled: true
-  show-actuator: true
-
-
-file:
-  min:
-    chunks:
-      size: 1048576
 service:
-  stub: false
+  stub: true
 
 

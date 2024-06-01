@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -15,15 +14,15 @@ import java.util.function.Function;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+@SpringBootTest(properties = "service.stub=true")
 @TestPropertySource(properties = {
-        "file.min.chunks.siz=1048576" // 1 MB for test
+        "file.min.chunks.size=1048576" // 1 MB for test
 })
 @Slf4j
-class PlayersSplitsTest {
+class PlayersFileSplitsTest {
 
     @Autowired
-    private Function<File, List<long[]>> playersSplits;
+    private Function<Path, List<long[]>> playersSplits;
 
     @Value("${file.min.chunks.size: 1048576}")
     private long minChunkSize;
@@ -34,10 +33,8 @@ class PlayersSplitsTest {
         Path tempFile = Files.createTempFile("testfile", ".tmp");
         Files.write(tempFile, new byte[(int) (5 * minChunkSize + 500000)]);
 
-        File file = tempFile.toFile();
-
-        List<long[]> splits = playersSplits.apply(file);
-        log.info("Splits: {}", splits);
+        List<long[]> splits = playersSplits.apply(tempFile);
+        log.info("Splits six: {}", splits);
 
 
         assertNotNull(splits);
@@ -59,10 +56,8 @@ class PlayersSplitsTest {
     public void testEmptyFile() throws Exception {
         Path tempFile = Files.createTempFile("emptyfile", ".tmp");
 
-        File file = tempFile.toFile();
-
-        List<long[]> splits = playersSplits.apply(file);
-        log.info("Splits: {}", splits);
+        List<long[]> splits = playersSplits.apply(tempFile);
+        log.info("Splits empty: {}", splits);
 
         assertNotNull(splits);
         assertTrue(splits.isEmpty()); // Expecting no splits for an empty file
@@ -75,10 +70,8 @@ class PlayersSplitsTest {
         Path tempFile = Files.createTempFile("smallfile", ".tmp");
         Files.write(tempFile, new byte[(int) (minChunkSize / 2)]);
 
-        File file = tempFile.toFile();
-
-        List<long[]> splits = playersSplits.apply(file);
-        log.info("Splits: {}", splits);
+        List<long[]> splits = playersSplits.apply(tempFile);
+        log.info("Splits one: {}", splits);
 
         assertNotNull(splits);
         assertEquals(1, splits.size()); // Expecting 1 split
