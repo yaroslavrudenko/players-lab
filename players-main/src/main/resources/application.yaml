@@ -11,10 +11,6 @@ spring:
     driverClassName: org.h2.Driver
     username: sa
     password: password
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
   h2.console:
     # Required for h2-console server
     enabled: true
@@ -22,6 +18,8 @@ spring:
     path: /h2-console
     # Optional h2 console port if not set or set 0, available port is given
     port: 8085
+    settings:
+      web-allow-others: true
   sql:
     init:
       platform: h2
