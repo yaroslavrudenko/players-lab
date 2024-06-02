@@ -168,6 +168,10 @@ java $JAVA_OPTS -jar players-lab-0.0.1-SNAPSHOT.jar --spring.config.location=${C
 NOTE: Make sure, that ```local-run.sh``` configured properly with following variables: `CONFIG_FILE`, `LOG_FILE`, `PLAYERS_CONFIG_SOURCE` (need put custom configs)  
 If these variables are not set, **application will use default configuration from resources**.
 
+IntelliJ IDEA can be used to run application as well:  
+
+[<img alt="Security checks" height="50%" src="./img/5.png" width="50%"/>](./img/5.png)
+
 ### Build with Docker
 To build Docker Image, there is `Makefile` provided to simplify process.   
 To know all function, provided by Makefile, there is command `make help` need to be invoked.
@@ -214,6 +218,20 @@ make docker-build
 ```shell
 make push-to-aws
 ```
+
+Docker image is build with multi-stage build, so it is optimized for production use.   
+It is based on tiny Linux Alpine image, which is very small and secure (~6MB).  
+Docker security check results for vulnerabilities:  
+
+[<img alt="Security checks" height="50%" src="./img/2.png" width="50%"/>](./img/2.png)
+
+Running Docker image:
+
+[<img alt="Security checks" height="50%" src="./img/1.png" width="50%"/>](./img/1.png)
+
+Building with GiFlow is also supported, so it is possible to use GitHub Actions for CI/CD:  
+
+[<img alt="Security checks" height="50%" src="./img/3.png" width="50%"/>](./img/3.png)
 
 ### Reference Documentation
 For further reference, please consider the following sections:
