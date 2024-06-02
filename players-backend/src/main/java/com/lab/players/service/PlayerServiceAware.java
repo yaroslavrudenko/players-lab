@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Service to provide CRUD operations for entities.
+ * Service to provide CRUD and main business operations for entities.
  *
  * @param <ENTITY> entity type.
  * @param <ID>     entity id type.
