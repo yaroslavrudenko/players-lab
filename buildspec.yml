@@ -11,6 +11,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
+      - make build
       - make docker-build
   post_build:
     commands:
