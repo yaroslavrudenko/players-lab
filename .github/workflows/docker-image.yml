@@ -19,5 +19,7 @@ jobs:
       with:
         java-version: '17'
         distribution: 'adopt'
+    - name: Build the app
+      run: make build
     - name: Build the Docker image
       run: make docker-build
