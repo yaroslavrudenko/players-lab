@@ -83,7 +83,14 @@ curl -X GET "http://localhost:8080/api/players/{playerID}" -H "Accept: applicati
 
 ### Caching Requests
 Caching is implemented to enhance performance and reduce the load on the database by storing frequently accessed data in memory.   
-This can be achieved using Spring Cache with annotations like @Cacheable, @CachePut, and @CacheEvict.
+This can be achieved using Spring Cache with annotations like @Cacheable, @CachePut, and @CacheEvict.  
+
+Cache is invalidated for all API requests.  
+1. Cache Invalidation when Player.csv is Changed Externally:  
+   - File watcher reacts on changes to the Player.csv file.  
+   - Whenever a change is detected, application invalidates the cache for all requests.  
+2. Cache Invalidation after One Hour:  
+   - Cache is configured to be invalidated after expiration.  
 
 ### Monitoring with Prometheus, documenting with Swagger
 Prometheus is used to collect and expose metrics from the application for monitoring purposes.   
