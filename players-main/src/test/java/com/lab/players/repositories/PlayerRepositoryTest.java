@@ -20,8 +20,8 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(properties = "service.stub=true")
-@TestPropertySource(locations = "classpath:test.yaml")
+@SpringBootTest(properties = {"service.stub=true", "spring.h2.console.enabled=false"}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestPropertySource(locations = "classpath:application-test.yaml")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class PlayerRepositoryTest {
 
