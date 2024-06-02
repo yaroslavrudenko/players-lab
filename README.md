@@ -1,7 +1,140 @@
 # Players Lab Project
 Spring lab project with Java Enterprise Stack.  
-Main goal is to create a simple REST API for managing players in a game or players in a team,  
-using Spring Boot, Spring Data JPA, Spring Security, Spring Batch, Spring Boot Actuator, and Prometheus etc.
+
+### Overview
+This project is a Spring Boot application designed to load player data from a CSV file into an H2 database and expose the data through three asynchronous endpoints using Spring WebFlux.  
+The application reads the CSV file in chunks, processes each chunk asynchronously, and stores the data in the database for efficient and scalable performance.  
+
+### Features
+1. **CSV File Processing**: The application reads a `player.csv` file, which is split into small chunks (default size is 1MB). Each chunk is processed to convert the data into a list of Player objects.
+2. **Asynchronous Data Loading**: The chunks are processed and loaded into the H2 database asynchronously to optimize performance and responsiveness.
+3. **Reactive Endpoints**: The application uses Spring WebFlux to expose three endpoints that provide reactive, non-blocking access to the player data.
+4. **Request Caching**: The application employs caching strategies to improve performance and reduce database load.
+5. **Monitoring with Prometheus**: Application metrics are collected and exposed via Prometheus for monitoring.
+6. **Logging with Log4j2**: The application uses Log4j2 for comprehensive and configurable logging.
+7. **API Documentation with Swagger**: The application uses Swagger to provide interactive API documentation.
+8. **H2 Console**: An embedded H2 database console is available for direct database access.
+
+### Schema
+
+```text
++--------------------+                     +------------------+
+|  Players.csv File  |                     |   Spring Boot    |
+|                    |                     |   Application    |
++--------------------+                     +------------------+
+          |                                      |
+          | (Read in chunks, 1MB default)        |
+          V                                      |
++--------------------+                     +------------------+
+|  CSV Chunk Reader  |                     |  Asynchronous    |
+| (Process each chunk|                     |  Processing      |
+|   to List<Player>) |                     |                  |
++--------------------+                     +------------------+
+          |                                      |
+          V                                      |
++--------------------+                     +------------------+
+|  List<Player>      |    Asynchronously   |  H2 Database     |
+|  (from each chunk) +-------------------> | (Save Players)   |
++--------------------+                     +------------------+
+                                                      |
+                                                      V
+                                              +------------------+
+                                              |  WebFlux API     |
+                                              |  Endpoints       |
+                                              +------------------+
+                                                      |
+                                                      V
+                                              +------------------+
+                                              |  API Consumer    |
+                                              |  (e.g., Swagger) |
+                                              +------------------+
+
+```
+
+### Endpoints
+Retrieves a paginated and sorted list of players. The response is in JSON format.
+```
+GET application/json /api/players?page=0&size=50&sort=birthYear,asc
+```
+Streams all player data in JSON streaming format.
+```
+GET application/stream+json /api/players/stream
+```
+Retrieves a specific player by their ID. The response is in JSON format.
+```
+GET application/stream+json /api/players/{playerID}
+```
+
+### CURL Commands to Read Data
+Retrieve Paginated and Sorted List of Players:
+```shell
+curl -X GET "http://localhost:8080/api/players?page=0&size=50&sort=birthYear,asc" -H "Accept: application/json"
+````
+
+Stream All Player Data:
+```shell
+curl -X GET "http://localhost:8080/api/players/stream" -H "Accept: application/stream+json"
+```
+
+Retrieve Specific Player by ID:
+```shell
+curl -X GET "http://localhost:8080/api/players/{playerID}" -H "Accept: application/stream+json"
+```
+
+### Caching Requests
+Caching is implemented to enhance performance and reduce the load on the database by storing frequently accessed data in memory.   
+This can be achieved using Spring Cache with annotations like @Cacheable, @CachePut, and @CacheEvict.
+
+### Monitoring with Prometheus, documenting with Swagger
+Prometheus is used to collect and expose metrics from the application for monitoring purposes.   
+Spring Boot Actuator provides out-of-the-box integration with Prometheus.
+
+```yaml
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+```
+
+Prometheus Endpoints:
+```shell
+curl http://localhost:8080/actuator/prometheus
+```
+
+Swagger is used to document and test the API endpoints. Springfox library is often used to integrate Swagger into Spring Boot applications.  
+
+Swagger Enpoint:
+```shell
+http://localhost:8080/swagger-ui.html
+```
+
+### H2 Console
+The H2 Console is enabled to allow direct access to the embedded H2 database.   
+This is useful for development and debugging purposes.
+
+```yaml
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+```
+
+H2 Console URL:
+```shell    
+http://localhost:8080/h2-console
+```
+
 
 # Getting Started
 
@@ -14,16 +147,21 @@ For building and running the application you may need:
 - [Git](https://git-scm.com/)
 
 ### Build and run with CMD
-To run application with command-line, need to execute following steps.  
+To run application with command-line, need to execute following steps.   
+Build a code:
+```shell
+make build
+```
+
 Run shell script, included in repository:
 ```shell
 make run
 ```
-or
+or use ready script:
 ```shell
 sh ./scripts/local-run.sh
 ```
-or
+or standard java FAT Jar command:
 ```shell
 java $JAVA_OPTS -jar players-lab-0.0.1-SNAPSHOT.jar --spring.config.location=${CONFIG_FILE} --logging.config=${LOG_FILE} --players.config.source=${PLAYERS_CONFIG_SOURCE}
 ```
@@ -55,6 +193,7 @@ scan                           - Scan for known vulnerabilities the  docker imag
 ```
 
 Before build, following resources could be pre-configured or **application will use default configuration from resources**:  
+**ATTENTION**: You can ignore this step, if you want to use default configuration from resources.
 ```shell
 export CONFIG_SOURCE==/Users/some-path/players-lab/players-main/src/main/resources/application.yaml   
 export LOG_SOURCE=/Users/some-path/players-lab/players-main/src/main/resources/spring-log4j2.xml
@@ -62,12 +201,16 @@ export PLAYERS_CONFIG_SOURCE=/Users/some-path/players-lab/players-main/src/main/
 ```
 To build Docker image, following command must be used with `Makefile`:
 
-1. Start Docker build process:
+1. Build a code:
+```shell
+make build
+```
+2. Start Docker build process:
 ```shell
 make docker-build
 ```
 
-2. Push Docker image to AWS Elastic Container Registry:
+3. Push Docker image to AWS Elastic Container Registry:
 ```shell
 make push-to-aws
 ```

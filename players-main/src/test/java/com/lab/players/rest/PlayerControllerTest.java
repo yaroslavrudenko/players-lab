@@ -59,6 +59,7 @@ public class PlayerControllerTest {
         webTestClient.get().uri("/api/players/stream")
                 .exchange()
                 .expectStatus().isOk()
+                .expectHeader().contentType("application/stream+json")
                 .expectBodyList(Player.class)
                 .consumeWith(response -> {
                     List<Player> players = response.getResponseBody();
@@ -74,6 +75,7 @@ public class PlayerControllerTest {
         webTestClient.get().uri("/api/players/abbotpa01")
                 .exchange()
                 .expectStatus().isOk()
+                .expectHeader().contentType("application/stream+json")
                 .expectBody(Player.class)
                 .consumeWith(response -> {
                     Player player = response.getResponseBody();
@@ -89,6 +91,7 @@ public class PlayerControllerTest {
         webTestClient.get().uri("/api/players?page=0&size=10&sort=playerID,desc")
                 .exchange()
                 .expectStatus().isOk()
+                .expectHeader().contentType("application/json")
                 .expectBody(String.class)
                 .consumeWith(response -> {
                     String playersPage = response.getResponseBody();

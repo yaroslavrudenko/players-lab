@@ -1,5 +1,6 @@
 package com.lab.players.rest;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.core.MethodParameter;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,8 +22,9 @@ public class PageableHandlerMethodArgumentResolver implements HandlerMethodArgum
         return Pageable.class.equals(parameter.getParameterType());
     }
 
+    @NotNull
     @Override
-    public Mono<Object> resolveArgument(MethodParameter methodParameter, BindingContext bindingContext, ServerWebExchange serverWebExchange) {
+    public Mono<Object> resolveArgument(@NotNull MethodParameter methodParameter, @NotNull BindingContext bindingContext, ServerWebExchange serverWebExchange) {
         List<String> pageValues = serverWebExchange.getRequest().getQueryParams().getOrDefault("page", List.of(DEFAULT_PAGE));
         List<String> sizeValues = serverWebExchange.getRequest().getQueryParams().getOrDefault("size", List.of(DEFAULT_SIZE));
 

@@ -32,7 +32,7 @@ public class PlayersFileSplits implements Function<Path, List<long[]>> {
         long remainingSize = fileSize;
 
         while (remainingSize > 0) {
-            long splitSize = Math.min(minChunkSize, remainingSize);
+            long splitSize = Math.min(this.minChunkSize, remainingSize);
             long end = start + splitSize;
             splits.add(new long[]{start, end});
             start = end;
