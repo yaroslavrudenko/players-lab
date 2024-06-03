@@ -1,7 +1,7 @@
 package com.lab.players.rest;
 
 import com.lab.players.entities.Player;
-import com.lab.players.file.whatcher.PlayersFileProcessorAware;
+import com.lab.players.file.whatcher.PlayersFileListenerAware;
 import com.lab.players.service.PlayerServiceAware;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,7 +38,7 @@ public class PlayerControllerTest {
 
 
     @Autowired
-    private PlayersFileProcessorAware playersFileProcessorAware;
+    private PlayersFileListenerAware playersFileListenerAware;
 
     private File testFile;
 
@@ -50,7 +50,7 @@ public class PlayerControllerTest {
             // Copy the contents of the resource file to the temporary file
             FileCopyUtils.copy(inputStream, Files.newOutputStream(testFile.toPath()));
         }
-        this.playersFileProcessorAware.onFileChange(testFile);
+        this.playersFileListenerAware.onFileChange(testFile);
     }
 
     @Test

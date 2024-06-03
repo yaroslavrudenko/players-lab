@@ -1,7 +1,7 @@
 package com.lab.players.repositories;
 
 import com.lab.players.entities.Player;
-import com.lab.players.file.whatcher.PlayersFileProcessorAware;
+import com.lab.players.file.whatcher.PlayersFileListenerAware;
 import com.lab.players.service.PlayerServiceAware;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,22 +29,23 @@ public class PlayerRepositoryTest {
     private PlayerServiceAware<Player, String> serviceAware;
 
     @Autowired
-    private PlayersFileProcessorAware playersFileProcessorAware;
+    private PlayersFileListenerAware playersFileListenerAware;
 
     private File testFile;
 
     @BeforeEach
     public void setUp() throws IOException {
+
         try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("players-test.csv")) {
             testFile = Files.createTempFile("test_file", ".txt").toFile();
             // Copy the contents of the resource file to the temporary file
             FileCopyUtils.copy(inputStream, Files.newOutputStream(testFile.toPath()));
         }
+        this.playersFileListenerAware.onFileChange(testFile);
     }
 
     @Test
     public void testFindAll() {
-        this.playersFileProcessorAware.onFileChange(testFile);
         // Given: Test database is initialized with schema.sql
         // When: Retrieving all players from the repository
         Iterable<Player> players = serviceAware.findAll();
@@ -63,7 +64,6 @@ public class PlayerRepositoryTest {
 
     @Test
     public void testPageable() {
-        this.playersFileProcessorAware.onFileChange(testFile);
         // Given: Test database is initialized with schema.sql
         // When: Retrieving all players from the repository
         Iterable<Player> players = serviceAware.findAll(Pageable.ofSize(5).withPage(1));
@@ -79,7 +79,6 @@ public class PlayerRepositoryTest {
      */
     @Test
     public void testGetById() {
-        this.playersFileProcessorAware.onFileChange(testFile);
         // Given: Test database is initialized with schema.sql
         // When: Retrieving all players from the repository
         Optional<Player> player = serviceAware.findById("adairje01");

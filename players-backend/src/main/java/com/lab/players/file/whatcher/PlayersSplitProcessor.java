@@ -1,17 +1,16 @@
 package com.lab.players.file.whatcher;
 
-
 import com.lab.players.entities.Player;
+import com.lab.players.file.process.PlayersFilterIteratorAware;
+import com.lab.players.file.process.PlayersRecordIteratorProvider;
 import com.lab.players.service.PlayerServiceAware;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -26,13 +25,10 @@ import static java.util.stream.Collectors.toList;
 @Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__({@Autowired}))
-public class PlayersFileProcessor extends FileAlterationListenerAdaptor implements PlayersFileProcessorAware {
+public class PlayersSplitProcessor implements PlayersSplitProcessorAware {
 
     public static final int START_BYTE = 0;
     public static final int END_BYTE = 1;
-
-    @NonNull
-    private Function<Path, List<long[]>> playersSplits;
 
     @NonNull
     private PlayerServiceAware<Player, String> playerService;
@@ -40,21 +36,13 @@ public class PlayersFileProcessor extends FileAlterationListenerAdaptor implemen
     @NonNull
     private Function<String, Player> playerMapper;
 
-    @Override
-    public void onFileChange(File file) {
-        log.info("Changes detected! Players file {} has been changed !", file);
-        List<long[]> splits = playersSplits.apply(file.toPath());
-        log.info("Detected Splits: {}", splits.size());
-
-        splits.parallelStream().forEach(split -> this.processPlayers(file, split));
-        log.info("All players have been processed for file: {} with chunks amount: {}", file.getName(), splits.size());
-    }
-
+    // TODO: Implement the processPlayers method with Async annotation. Think if this brings any benefits to the application.
+    //@Async
     @Override
     public void processPlayers(File file, long[] split) {
         long startByte = split[START_BYTE];
         long endByte = split[END_BYTE];
-        log.info("Split bytes: start:{} - end:{}", startByte, endByte);
+        log.info("Start split bytes: start:{} - end:{} for file: {}", startByte, endByte, file.getName());
         try (PlayersFilterIteratorAware playersRecordIteratorProvider = new PlayersRecordIteratorProvider(file)) {
             Iterator<String> iterator = playersRecordIteratorProvider.getRecordIterator(startByte, endByte, TRUE);
             List<Player> players = this.createPlayers(iterator);
@@ -62,6 +50,7 @@ public class PlayersFileProcessor extends FileAlterationListenerAdaptor implemen
         } catch (Exception e) {
             log.error("Error while reading file: {}. From byte: {}, to: {}", file, startByte, endByte, e);
         }
+        log.info("Finish split bytes: start:{} - end:{} for file: {}", startByte, endByte, file.getName());
     }
 
     @Override
@@ -71,5 +60,4 @@ public class PlayersFileProcessor extends FileAlterationListenerAdaptor implemen
                 .filter(Objects::nonNull)
                 .collect(toList());
     }
-
 }

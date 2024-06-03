@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Configuration
 @EnableCaching
-public class CacheConfig implements CachingConfigurer {
+public class PlayersCacheConfig implements CachingConfigurer {
 
     public static final String SERVICE_FIND_ALL = "serviceFindAll";
     public static final String SERVICE_FIND_BY_ID = "serviceFindById";

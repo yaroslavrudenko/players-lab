@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @RequiredArgsConstructor(onConstructor = @__({@Autowired}))
-public class SwaggerConfig {
+public class PlayersSwaggerConfig {
 
 
     @Bean
