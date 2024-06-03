@@ -35,5 +35,4 @@ public class PlayersAppConfig {
         log.info("Creating PlayersSymbolMappingFileWatcher");
         return new PlayersFileWatcher(monitoringInterval, monitoringFileLocation, listener);
     }
-
 }
