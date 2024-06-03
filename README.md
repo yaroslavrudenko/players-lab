@@ -240,6 +240,58 @@ Building with GiFlow is also supported, so it is possible to use GitHub Actions 
 
 [<img alt="Security checks" height="50%" src="./img/3.png" width="50%"/>](./img/3.png)
 
+### Unit Tests and Integration Tests
+All relevant tests are included in the project.  
+Folder and module structure is designed to separate tests from main code.  
+Tests are ran as part of the build process.  
+
+Module for tests is `/players-lab/players-main/src/test/java`.  
+
+### Prometheus Monitoring
+Prometheus is used to collect and expose metrics from the application for monitoring purposes.  
+Prometheus is configured to scrape metrics from the application at `http://localhost:8080/actuator/prometheus`.  
+This project includes such examples of business metrics:  
+
+```text
+# HELP updated_players_total Total amount of updated players.
+# TYPE updated_players_total counter
+updated_players_total 19369.0
+
+# HELP popular_players_total Total amount of requests for popular players.
+# TYPE popular_players_total counter
+popular_players_total{playerID="acosted01"} 1.0
+popular_players_total{playerID="acostjo01"} 1.0
+
+# TYPE http_server_requests_seconds summary
+http_server_requests_seconds_count{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/api/players"} 3
+http_server_requests_seconds_sum{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/api/players"} 0.147897249
+http_server_requests_seconds_count{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/api/players/stream"} 2
+http_server_requests_seconds_sum{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/api/players/stream"} 0.792809125
+http_server_requests_seconds_count{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/api/players/{playerID}"} 4
+http_server_requests_seconds_sum{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/api/players/{playerID}"} 0.03250071
+
+# HELP http_server_requests_seconds_max  
+# TYPE http_server_requests_seconds_max gauge
+http_server_requests_seconds_max{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/api/players"} 0.141999208
+http_server_requests_seconds_max{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/api/players/stream"} 0.530484334
+http_server_requests_seconds_max{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/api/players/{playerID}"} 0.022823417
+
+# HELP spring_data_repository_invocations_seconds Duration of repository invocations
+# TYPE spring_data_repository_invocations_seconds summary
+spring_data_repository_invocations_seconds_count{exception="None",method="findAll",repository="PlayersRepository",state="SUCCESS"} 2
+spring_data_repository_invocations_seconds_sum{exception="None",method="findAll",repository="PlayersRepository",state="SUCCESS"} 0.21089425
+spring_data_repository_invocations_seconds_count{exception="None",method="findById",repository="PlayersRepository",state="SUCCESS"} 2
+spring_data_repository_invocations_seconds_sum{exception="None",method="findById",repository="PlayersRepository",state="SUCCESS"} 0.001884626
+spring_data_repository_invocations_seconds_count{exception="None",method="saveAll",repository="PlayersRepository",state="SUCCESS"} 3
+spring_data_repository_invocations_seconds_sum{exception="None",method="saveAll",repository="PlayersRepository",state="SUCCESS"} 0.779419876
+
+# HELP spring_data_repository_invocations_seconds_max Duration of repository invocations
+# TYPE spring_data_repository_invocations_seconds_max gauge
+spring_data_repository_invocations_seconds_max{exception="None",method="findAll",repository="PlayersRepository",state="SUCCESS"} 0.188516792
+spring_data_repository_invocations_seconds_max{exception="None",method="findById",repository="PlayersRepository",state="SUCCESS"} 0.001578834
+spring_data_repository_invocations_seconds_max{exception="None",method="saveAll",repository="PlayersRepository",state="SUCCESS"} 0.305815084
+```
+
 ### Reference Documentation
 For further reference, please consider the following sections:
 

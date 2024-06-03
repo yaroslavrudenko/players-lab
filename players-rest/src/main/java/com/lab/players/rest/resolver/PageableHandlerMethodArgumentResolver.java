@@ -1,4 +1,4 @@
-package com.lab.players.rest;
+package com.lab.players.rest.resolver;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.MethodParameter;

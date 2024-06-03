@@ -25,7 +25,7 @@ import java.io.File;
 @EnableJpaRepositories(basePackages = {"com.lab.players.repositories"})
 @EntityScan("com.lab.players.entities")
 @Import(value = {H2ConsoleAutoConfiguration.class})
-public class AppConfig {
+public class PlayersAppConfig {
 
     @Bean
     @ConditionalOnProperty(name = "service.stub", havingValue = "false", matchIfMissing = true)
