@@ -51,6 +51,12 @@ The application reads the CSV file in chunks, processes each chunk asynchronousl
 
 ```
 
+### App Structure Diagram
+[<img alt="Security checks" height="50%" src="./img/7.png" width="75%"/>](./img/7.png)
+
+### File Processing Sequence Diagram
+[<img alt="Security checks" height="50%" src="./img/6.png" width="75%"/>](./img/6.png)
+
 ### Endpoints
 Retrieves a paginated and sorted list of players. The response is in JSON format.
 ```
@@ -177,7 +183,7 @@ If these variables are not set, **application will use default configuration fro
 
 IntelliJ IDEA can be used to run application as well:  
 
-[<img alt="Security checks" height="50%" src="./img/5.png" width="50%"/>](./img/5.png)
+[<img alt="Security checks" height="50%" src="./img/5.png" width="75%"/>](./img/5.png)
 
 ### Build with Docker
 To build Docker Image, there is `Makefile` provided to simplify process.   
@@ -230,15 +236,15 @@ Docker image is build with multi-stage build, so it is optimized for production 
 It is based on tiny Linux Alpine image, which is very small and secure (~6MB).  
 Docker security check results for vulnerabilities:  
 
-[<img alt="Security checks" height="50%" src="./img/2.png" width="50%"/>](./img/2.png)
+[<img alt="Security checks" height="50%" src="./img/2.png" width="75%"/>](./img/2.png)
 
 Running Docker image:
 
-[<img alt="Security checks" height="50%" src="./img/1.png" width="50%"/>](./img/1.png)
+[<img alt="Security checks" height="50%" src="./img/1.png" width="75%"/>](./img/1.png)
 
 Building with GiFlow is also supported, so it is possible to use GitHub Actions for CI/CD:  
 
-[<img alt="Security checks" height="50%" src="./img/3.png" width="50%"/>](./img/3.png)
+[<img alt="Security checks" height="50%" src="./img/3.png" width="75%"/>](./img/3.png)
 
 ### Unit Tests and Integration Tests
 All relevant tests are included in the project.  
