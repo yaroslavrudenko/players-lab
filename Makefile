@@ -78,7 +78,13 @@ run:env ## - Compile, Build and locally run application
 	@echo "running............"
 	@sh ./scripts/local-run.sh
 
-run:env ## - Builder Install
+install-docker-buildx:env ## - Builder Install
 	@echo "running............"
 	@docker buildx install
 	@docker buildx create --name mybuilder --use
+
+docker-inspect:env ## - Builder Install
+	@echo "running............"
+	docker buildx imagetools inspect $(DOCKER_IMAGE):$(APP_VERSION)
+
+
