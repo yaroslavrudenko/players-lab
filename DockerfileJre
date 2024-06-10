@@ -1,0 +1,30 @@
+# Please do not use @latest version as we want to have control over
+# image versions, instaed use actual latest versions at the moment.
+# Use same OS image for build and runtime.
+# Alpine is chosen for its small footprint
+# compared to Ubuntu
+# base image to build a JRE
+FROM amazoncorretto:21-alpine3.19-full as jre
+
+# required for strip-debug to work
+RUN apk add --no-cache binutils
+RUN apk add --no-cache curl
+
+# Build small JRE image
+RUN $JAVA_HOME/bin/jlink \
+    --verbose \
+    --add-modules ALL-MODULE-PATH \
+    --strip-debug \
+    --no-man-pages \
+    --no-header-files \
+    --compress=2 \
+    --output /customjre
+
+FROM alpine:latest
+
+# set up JAVA_HOME
+ENV JAVA_HOME=/jre
+ENV PATH="${JAVA_HOME}/bin:${PATH}"
+
+# copy JRE from the base image
+COPY --from=jre /customjre $JAVA_HOME/

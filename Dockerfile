@@ -4,7 +4,7 @@
 # Alpine is chosen for its small footprint
 # compared to Ubuntu
 # base image to build a JRE
-FROM openjdk:17-jdk-alpine as jre
+FROM amazoncorretto:21-alpine3.19-jdk as jre
 
 ARG APP_BUILD
 ARG APP_VERSION
