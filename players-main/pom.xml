@@ -44,6 +44,7 @@
                         <exclude>*.template</exclude>
                         <exclude>application-*.properties</exclude>
                         <exclude>application*.yaml</exclude>
+                        <exclude>*.csv</exclude>
                     </excludes>
                     <archive>
                         <manifest>
