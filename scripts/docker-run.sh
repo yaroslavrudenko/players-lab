@@ -30,4 +30,4 @@ echo "6.  Jemalloc:  '${LD_PRELOAD}'"
 echo
 echo "Running application pack: ${APP_FULL_NAME}"
 
-java $JAVA_OPTS -jar $APP_FULL_NAME $JAVA_COMMANDS
+java $JAVA_OPTS org.springframework.boot.loader.launch.JarLauncher $JAVA_COMMANDS

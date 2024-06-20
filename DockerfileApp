@@ -6,6 +6,14 @@
 # base image to build a JRE
 FROM yaroslavrudenko/amazoncorretto-jre-21-alpine3.19-full:latest as jre
 
+ARG APP_FULL_NAME
+ENV APP_FULL_NAME=$APP_FULL_NAME
+
+# copy the app
+WORKDIR /app
+COPY ./players-main/target/$APP_FULL_NAME .
+RUN java -Djarmode=layertools -jar $APP_FULL_NAME extract
+
 # main app image
 FROM alpine:latest
 
@@ -32,7 +40,11 @@ COPY --from=jre /jre $JAVA_HOME/
 
 # copy the app
 WORKDIR /app
-COPY ./players-main/target/$APP_FULL_NAME .
+COPY --from=jre app/dependencies/ ./
+COPY --from=jre app/spring-boot-loader/ ./
+COPY --from=jre app/snapshot-dependencies/ ./
+COPY --from=jre app/application/ ./
+
 
 RUN mkdir -p ./runtime
 COPY ./players-main/src/main/resources/* ./runtime/
